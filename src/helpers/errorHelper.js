@@ -1,13 +1,8 @@
 export function handleError(error) {
-  if (error.response && error.response.status === 442) {
-    return error.response.data.errors;
-  } else if (error.response && error.response.status === 401) {
-    return error.response.data.message;
-  } else if (error.response && error.response.status === 400) {
-    return error.response.data.message;
-  } else if (error.response && error.response.status === 500) {
-    return error.response.data.message;
-  } else {
-    alert("Something went wrong. please try again later");
+  if (error.response) {
+    const { status, data } = error.response;
+    if (status === 422) return data.errors;
+    return data.message || "Unexpected server error";
   }
+  return error.message || "Something went wrong";
 }
