@@ -57,10 +57,14 @@
           />
         </div>
         <div class="flex flex-col gap-[6px] w-[120px] shrink-0">
-          <p class="font-semibold leading-5 w-[120px] truncate">Bimore W</p>
-          <p class="font-medium text-sm text-desa-secondary">Kepala Desa</p>
+          <p class="font-semibold leading-5 w-[120px] truncate">
+            {{ user?.name }}
+          </p>
+          <p class="font-medium text-sm text-desa-secondary">
+            {{ user?.role }}
+          </p>
         </div>
-        <a href="index.html" class="flex size-6 shrink-0">
+        <a @click="logout" class="flex size-6 shrink-0">
           <img
             src="@/assets/images/icons/logout-red.svg"
             class="size-6"
@@ -72,6 +76,14 @@
   </div>
 </template>
 
-<script setup></script>
+<script setup>
+import { useAuthStore } from "@/stores/auth";
+import { storeToRefs } from "pinia";
+
+const authStore = useAuthStore();
+
+const { user } = storeToRefs(authStore);
+const { logout } = authStore;
+</script>
 
 <style lang="scss" scoped></style>

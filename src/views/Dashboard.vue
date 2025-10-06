@@ -851,19 +851,15 @@ const getResidentStatistic = () => {
         {
           data: [114210, 97200, 24300, 7290],
           backgroundColor: ["#34613A", "#8EBD55", "#FA7139", "#FBAD48"],
+          borderRadius: 6,
+          spacing: 2,
+          cutout: "69%",
         },
       ],
     },
     options: {
-      scales: {
-        display: false,
-      },
-      datasets: {
-        doughnut: {
-          spacing: 2,
-          borderRadius: 6,
-          cutout: "69%",
-        },
+      plugins: {
+        legend: { display: false },
       },
     },
   });
