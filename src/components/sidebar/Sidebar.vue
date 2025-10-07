@@ -69,6 +69,8 @@
 import SidebarItem from "./SidebarItem.vue";
 import iconChartActive from "@/assets/images/icons/chart-square-dark-green.svg";
 import iconChartInActive from "@/assets/images/icons/chart-square-secondary-green.svg";
+import iconCrownActive from "@/assets/images/icons/crown-dark-green.svg";
+import iconCrownInActive from "@/assets/images/icons/crown-secondary-green.svg";
 
 const items = [
   {
@@ -76,6 +78,12 @@ const items = [
     path: "/",
     iconActive: iconChartActive,
     iconInActive: iconChartInActive,
+  },
+  {
+    label: "Head Of Family",
+    path: "/head-of-family",
+    iconActive: iconCrownActive,
+    iconInActive: iconCrownInActive,
   },
 ];
 </script>
