@@ -22,7 +22,7 @@
       />
     </div>
 
-    <span class="text-left text-[12px] text-red-500" v-if="errorMessage">
+    <span class="text-left text-[12px] text-red-700" v-if="errorMessage">
       {{ errorMessage[0] }}
     </span>
   </div>

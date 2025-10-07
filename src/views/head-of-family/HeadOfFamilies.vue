@@ -1,8 +1,8 @@
 <template>
   <div id="Header" class="flex items-center justify-between">
     <h1 class="font-semibold text-2xl">Kepala Rumah</h1>
-    <a
-      href="kd-kepala-rumah-add.html"
+    <router-link
+      :to="{ name: 'create-head-of-family' }"
       class="flex items-center rounded-2xl py-4 px-6 gap-[10px] bg-desa-dark-green"
     >
       <img
@@ -11,7 +11,7 @@
         alt="icon"
       />
       <p class="font-medium text-white">Add New</p>
-    </a>
+    </router-link>
   </div>
 
   <div
@@ -20,17 +20,6 @@
     role="alert"
   >
     <span class="block sm:inline">{{ success }}</span>
-    <button
-      type="button"
-      @click="success = null"
-      class="absolute top-1/2 -translate-y-1/2 right-4"
-    >
-      <img
-        src="@/assets/images/icons/close-circle-red-fill.svg"
-        class="flex size-6 shrink-0"
-        alt=""
-      />
-    </button>
   </div>
 
   <div
@@ -158,7 +147,12 @@ const fetchData = async () => {
 
 const debounceFetchData = debounce(fetchData, 500);
 
-onMounted(fetchData);
+onMounted(() => {
+  fetchData();
+  setTimeout(() => {
+    success.value = null;
+  }, 2500);
+});
 
 watch(
   serverOptions,
