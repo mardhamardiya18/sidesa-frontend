@@ -6,6 +6,8 @@ import HeadOfFamilies from "@/views/head-of-family/HeadOfFamilies.vue";
 import HeadOfFamily from "@/views/head-of-family/HeadOfFamily.vue";
 import HeadOfFamilyCreate from "@/views/head-of-family/HeadOfFamilyCreate.vue";
 import Login from "@/views/Login.vue";
+import SocialAssistanceRecipient from "@/views/social-assistance-recipient/SocialAssistanceRecipient.vue";
+import SocialAssistanceRecipients from "@/views/social-assistance-recipient/SocialAssistanceRecipients.vue";
 import SocialAssistance from "@/views/social-assistance/SocialAssistance.vue";
 import SocialAssistanceCreate from "@/views/social-assistance/SocialAssistanceCreate.vue";
 import SocialAssistanceEdit from "@/views/social-assistance/SocialAssistanceEdit.vue";
@@ -67,6 +69,36 @@ const router = createRouter({
           component: SocialAssistanceCreate,
           meta: { requiresAuth: true, permission: "social-assistance-create" },
         },
+        {
+          path: "/social-assistance-recipient",
+          name: "social-assistance-recipient",
+          component: SocialAssistanceRecipients,
+          meta: {
+            requiresAuth: true,
+            permission: "social-assistance-recipient-list",
+          },
+        },
+        {
+          path: "/social-assistance-recipient/:id",
+          name: "manage-social-assistance-recipient",
+          component: SocialAssistanceRecipient,
+          meta: {
+            requiresAuth: true,
+            permission: "social-assistance-recipient-list",
+          },
+        },
+        // {
+        //   path: "/social-assistance-recipient/edit/:id",
+        //   name: "edit-social-assistance-recipient",
+        //   component: SocialAssistanceRecipientEdit,
+        //   meta: { requiresAuth: true, permission: "social-assistance-recipient-edit" },
+        // },
+        // {
+        //   path: "/social-assistance-recipient-create",
+        //   name: "create-social-assistance-recipient",
+        //   component: SocialAssistance-recipientCreate,
+        //   meta: { requiresAuth: true, permission: "social-assistance-recipient-create" },
+        // },
       ],
     },
     {
@@ -82,6 +114,10 @@ const router = createRouter({
       ],
     },
   ],
+  scrollBehavior(to, from, savedPosition) {
+    // selalu ke atas setiap route berubah
+    return { top: 0, left: 0 };
+  },
 });
 
 router.beforeEach(async (to, from, next) => {
