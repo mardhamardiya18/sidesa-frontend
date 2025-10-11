@@ -2669,3 +2669,7 @@ body {
   --tw-bg-opacity: 1;
   background-color: rgb(52 97 58 / var(--tw-bg-opacity));
 }
+
+.cursor-not-allowed {
+  cursor: not-allowed;
+}

@@ -4,7 +4,7 @@
       <li class="group">
         <a
           @click="serverOptions.page = meta.current_page - 1"
-          :class="{ 'cursor-not-allowed': meta.current_page === 1 }"
+          :class="{ 'cursor-not-allowed': meta?.current_page === 1 }"
           class="flex size-11 shrink-0 items-center justify-center rounded-full bg-desa-foreshadow bg-desa-foreshadow group-hover:bg-desa-dark-green transition-setup"
         >
           <img

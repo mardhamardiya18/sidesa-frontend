@@ -71,6 +71,8 @@ import iconChartActive from "@/assets/images/icons/chart-square-dark-green.svg";
 import iconChartInActive from "@/assets/images/icons/chart-square-secondary-green.svg";
 import iconCrownActive from "@/assets/images/icons/crown-dark-green.svg";
 import iconCrownInActive from "@/assets/images/icons/crown-secondary-green.svg";
+import iconBagActive from "@/assets/images/icons/bag-2-dark-green.svg";
+import iconBagInActive from "@/assets/images/icons/bag-2-secondary-green.svg";
 
 const items = [
   {
@@ -80,10 +82,22 @@ const items = [
     iconInActive: iconChartInActive,
   },
   {
-    label: "Head Of Family",
+    label: "Kepala Rumah",
     path: "/head-of-family",
     iconActive: iconCrownActive,
     iconInActive: iconCrownInActive,
+  },
+  {
+    label: "Bantuan Sosial",
+    path: "",
+    iconActive: iconBagActive,
+    iconInActive: iconBagInActive,
+    children: [
+      {
+        label: "List Bansos",
+        path: "/social-assistance",
+      },
+    ],
   },
 ];
 </script>

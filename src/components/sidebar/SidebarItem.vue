@@ -37,12 +37,12 @@
         <div class="relative flex size-6 shrink-0">
           <img
             :src="item.iconActive"
-            class="absolute flex size-6 shrink-0 opacity-0 group-[.active]:opacity-100 transition-setup"
+            class="absolute flex size-6 shrink-0 transition-setup"
             alt="icon"
           />
           <img
-            :src="item.icon.iconInActive"
-            class="absolute flex size-6 shrink-0 opacity-100 group-[.active]:opacity-0 transition-setup"
+            :src="item.iconInActive"
+            class="absolute flex size-6 shrink-0 transition-setup"
             alt="icon"
           />
         </div>
@@ -54,13 +54,13 @@
         <div class="relative flex size-6 shrink-0">
           <img
             src="@/assets/images/icons/arrow-circle-dark-green-up.svg"
-            class="absolute flex size-6 shrink-0 opacity-0 group-[.active]:opacity-100 transition-setup"
+            class="absolute flex size-6 shrink-0 transition-setup"
             alt="icon"
             v-if="isOPen"
           />
           <img
             src="@/assets/images/icons/arrow-circle-secondary-green-down.svg"
-            class="absolute flex size-6 shrink-0 opacity-100 group-[.active]:opacity-0 transition-setup"
+            class="absolute flex size-6 shrink-0 transition-setup"
             alt="icon"
             v-else
           />
