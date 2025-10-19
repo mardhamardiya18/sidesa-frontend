@@ -53,21 +53,6 @@ export const useSosialAssistanceRecipientStore = defineStore(
         }
       },
 
-      async fetchDeleteSocialAssistanceRecipient(id) {
-        this.loading = true;
-
-        try {
-          const response = await axiosInstance.delete(
-            `social-assistance-recipient/${id}`
-          );
-          this.success = response.data.message;
-        } catch (error) {
-          this.error = handleError(error);
-        } finally {
-          this.loading = false;
-        }
-      },
-
       async fetchSocialAssistanceRecipientUpdate(payload) {
         this.loading = true;
 
@@ -83,25 +68,6 @@ export const useSosialAssistanceRecipientStore = defineStore(
           router.push({
             name: "manage-social-assistance-recipient",
             params: { id: payload.id },
-          });
-        } catch (error) {
-          this.error = handleError(error);
-        } finally {
-          this.loading = false;
-        }
-      },
-
-      async fetchSocialAssistanceRecipientStore(payload) {
-        this.loading = true;
-
-        try {
-          const response = await axiosInstance.post(
-            `social-assistance-recipient`,
-            payload
-          );
-          this.success = response.data.message;
-          router.push({
-            name: "social-assistance-recipient",
           });
         } catch (error) {
           this.error = handleError(error);

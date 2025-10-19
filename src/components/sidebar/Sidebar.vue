@@ -103,6 +103,18 @@ const items = [
       },
     ],
   },
+  {
+    label: "Jadwal Desa",
+    path: "",
+    iconActive: iconBagActive,
+    iconInActive: iconBagInActive,
+    children: [
+      {
+        label: "Pembangunan",
+        path: "/development",
+      },
+    ],
+  },
 ];
 </script>
 

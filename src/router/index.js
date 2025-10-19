@@ -2,6 +2,10 @@ import Auth from "@/layouts/Auth.vue";
 import Main from "@/layouts/Main.vue";
 import { useAuthStore } from "@/stores/auth";
 import Dashboard from "@/views/Dashboard.vue";
+import Development from "@/views/development/Development.vue";
+import DevelopmentCreate from "@/views/development/DevelopmentCreate.vue";
+import DevelopmentEdit from "@/views/development/DevelopmentEdit.vue";
+import Developments from "@/views/development/Developments.vue";
 import HeadOfFamilies from "@/views/head-of-family/HeadOfFamilies.vue";
 import HeadOfFamily from "@/views/head-of-family/HeadOfFamily.vue";
 import HeadOfFamilyCreate from "@/views/head-of-family/HeadOfFamilyCreate.vue";
@@ -87,18 +91,31 @@ const router = createRouter({
             permission: "social-assistance-recipient-list",
           },
         },
-        // {
-        //   path: "/social-assistance-recipient/edit/:id",
-        //   name: "edit-social-assistance-recipient",
-        //   component: SocialAssistanceRecipientEdit,
-        //   meta: { requiresAuth: true, permission: "social-assistance-recipient-edit" },
-        // },
-        // {
-        //   path: "/social-assistance-recipient-create",
-        //   name: "create-social-assistance-recipient",
-        //   component: SocialAssistance-recipientCreate,
-        //   meta: { requiresAuth: true, permission: "social-assistance-recipient-create" },
-        // },
+
+        {
+          path: "/development",
+          name: "development",
+          component: Developments,
+          meta: { requiresAuth: true, permission: "development-list" },
+        },
+        {
+          path: "/development/:id",
+          name: "manage-development",
+          component: Development,
+          meta: { requiresAuth: true, permission: "development-list" },
+        },
+        {
+          path: "/development/edit/:id",
+          name: "edit-development",
+          component: DevelopmentEdit,
+          meta: { requiresAuth: true, permission: "development-edit" },
+        },
+        {
+          path: "/development-create",
+          name: "create-development",
+          component: DevelopmentCreate,
+          meta: { requiresAuth: true, permission: "development-create" },
+        },
       ],
     },
     {
