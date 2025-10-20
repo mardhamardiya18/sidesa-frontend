@@ -29,6 +29,25 @@ export function formatDateTime(date) {
   return new Date(date).toLocaleDateString("id-ID", options);
 }
 
+export function formatTime(time) {
+  // --- Penambahan Cek Wajib ---
+  // Pastikan 'time' BUKAN null, BUKAN undefined, dan bertipe string.
+  if (!time || typeof time !== "string") {
+    return ""; // Kembalikan string kosong atau nilai default lainnya
+  }
+  // -----------------------------
+
+  // Pisahkan string berdasarkan ':'
+  const parts = time.split(":");
+
+  // Pastikan setidaknya ada Jam dan Menit (2 bagian)
+  if (parts.length >= 2) {
+    return `${parts[0]}:${parts[1]}`;
+  }
+
+  return time;
+}
+
 export function formatToClientTimezone(date) {
   const originalDate = DateTime.fromISO(date, { zone: "utc" });
 
@@ -37,7 +56,7 @@ export function formatToClientTimezone(date) {
   return originalDate
     .setZone(timezone)
     .setLocale("id")
-    .toFormat("dd LLLL yyyy, HH:mm");
+    .toFormat("dd LLLL yyyy");
 }
 
 export function ucfirst(string) {

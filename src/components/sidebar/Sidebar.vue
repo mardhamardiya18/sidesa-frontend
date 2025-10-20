@@ -113,6 +113,10 @@ const items = [
         label: "Pembangunan",
         path: "/development",
       },
+      {
+        label: "Event Desa",
+        path: "/event",
+      },
     ],
   },
 ];
