@@ -73,6 +73,8 @@ import iconCrownActive from "@/assets/images/icons/crown-dark-green.svg";
 import iconCrownInActive from "@/assets/images/icons/crown-secondary-green.svg";
 import iconBagActive from "@/assets/images/icons/bag-2-dark-green.svg";
 import iconBagInActive from "@/assets/images/icons/bag-2-secondary-green.svg";
+import iconBuilding4Active from "@/assets/images/icons/building-4-dark-green.svg";
+import iconBuilding4InActive from "@/assets/images/icons/building-4-secondary-green.svg";
 
 const items = [
   {
@@ -118,6 +120,12 @@ const items = [
         path: "/event",
       },
     ],
+  },
+  {
+    label: "Profile",
+    path: "/Profile",
+    iconActive: iconBuilding4Active,
+    iconInActive: iconBuilding4InActive,
   },
 ];
 </script>
