@@ -9,6 +9,7 @@
         <h1 class="font-semibold text-2xl">Profile Desa</h1>
       </div>
       <router-link
+        v-if="can('profile-create')"
         :to="{ name: 'create-profile' }"
         class="flex items-center rounded-2xl py-4 px-6 gap-[10px] bg-desa-dark-green"
       >
@@ -44,6 +45,7 @@
         <h1 class="font-semibold text-2xl">Profile Desa</h1>
       </div>
       <a
+        v-if="can('profile-edit')"
         href="kd-profile-desa-edit.html"
         class="flex items-center rounded-2xl py-4 px-6 gap-[10px] bg-desa-black"
       >
@@ -309,6 +311,7 @@
 </template>
 
 <script setup>
+import { can } from "@/helpers/permissionHelper";
 import { useProfileStore } from "@/stores/profile";
 import { storeToRefs } from "pinia";
 import { onMounted, ref } from "vue";

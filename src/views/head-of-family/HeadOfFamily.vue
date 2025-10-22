@@ -17,6 +17,7 @@
       <h1 class="font-semibold text-2xl">Manage Kepala Rumah</h1>
     </div>
     <button
+      v-if="can('head-of-family-delete')"
       @click="showModalDelete = true"
       class="flex items-center rounded-2xl py-4 px-6 gap-[10px] bg-desa-red"
     >
@@ -799,6 +800,7 @@
 
 <script setup>
 import ModalDelete from "@/components/ui/ModalDelete.vue";
+import { can } from "@/helpers/permissionHelper";
 import router from "@/router";
 import { useHeadOfFamilyStore } from "@/stores/HeadOfFamily";
 import { storeToRefs } from "pinia";
@@ -808,7 +810,8 @@ import { useRoute } from "vue-router";
 const showModalDelete = ref(false);
 const headOfFamilyStore = useHeadOfFamilyStore();
 const { deleteHeadOfFamily, fetchHeadOfFamily } = headOfFamilyStore;
-const { loading, headOfFamily, success } = storeToRefs(headOfFamilyStore);
+const { loading, headOfFamily, success, error } =
+  storeToRefs(headOfFamilyStore);
 const route = useRoute();
 
 const calculateAge = (dateString) => {
@@ -828,14 +831,13 @@ const handleDelete = async () => {
   router.push({ name: "head-of-family" });
 };
 
-onMounted(
-  () => {
-    fetchHeadOfFamily(route.params.id);
-  },
+onMounted(() => {
+  fetchHeadOfFamily(route.params.id);
+
   setTimeout(() => {
     success.value = null;
-  }, 2500)
-);
+  }, 2500);
+});
 </script>
 
 <style lang="scss" scoped></style>

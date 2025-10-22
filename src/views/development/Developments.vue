@@ -2,6 +2,7 @@
   <div id="Header" class="flex items-center justify-between">
     <h1 class="font-semibold text-2xl">Pembangunan Desa</h1>
     <router-link
+      v-if="can('development-create')"
       :to="{ name: 'create-development' }"
       class="flex items-center rounded-2xl py-4 px-6 gap-[10px] bg-desa-dark-green"
     >
@@ -119,6 +120,7 @@
 <script setup>
 import CardList from "@/components/development/CardList.vue";
 import Pagination from "@/components/ui/Pagination.vue";
+import { can } from "@/helpers/permissionHelper";
 import { useDevelopmentStore } from "@/stores/development";
 import { debounce } from "lodash";
 import { storeToRefs } from "pinia";

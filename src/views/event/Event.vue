@@ -17,6 +17,7 @@
       <h1 class="font-semibold text-2xl">Detail Event Desa</h1>
     </div>
     <router-link
+      v-if="can('event-edit')"
       :to="{ name: 'edit-event', params: { id: payload.id } }"
       class="flex items-center rounded-2xl py-4 px-6 gap-[10px] bg-desa-black"
     >
@@ -236,6 +237,7 @@
 
 <script setup>
 import { formatDate, formatRupiah, formatTime } from "@/helpers/format";
+import { can } from "@/helpers/permissionHelper";
 import { useEventStore } from "@/stores/event";
 import { storeToRefs } from "pinia";
 import { onMounted, ref } from "vue";

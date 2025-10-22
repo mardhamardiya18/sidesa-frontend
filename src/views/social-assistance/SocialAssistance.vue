@@ -18,6 +18,7 @@
     </div>
     <div class="flex items-center gap-3">
       <button
+        v-if="can('social-assistance-delete')"
         @click="showModalDelete = true"
         data-modal="Modal-Delete"
         class="flex items-center rounded-2xl py-4 px-6 gap-[10px] bg-desa-red"
@@ -35,6 +36,7 @@
           params: { id: route.params.id },
         }"
         class="flex items-center rounded-2xl py-4 px-6 gap-[10px] bg-desa-black"
+        v-if="can('social-assistance-edit')"
       >
         <p class="font-medium text-white">Ubah Data</p>
         <img
@@ -265,6 +267,7 @@
 <script setup>
 import ModalDelete from "@/components/ui/ModalDelete.vue";
 import { formatRupiah, formatToClientTimezone } from "@/helpers/format";
+import { can } from "@/helpers/permissionHelper";
 import router from "@/router";
 import { useSosialAssistanceStore } from "@/stores/socialAssistance";
 import { storeToRefs } from "pinia";

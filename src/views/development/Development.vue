@@ -21,6 +21,7 @@
         @click="showModalDelete = true"
         data-modal="Modal-Delete"
         class="flex items-center rounded-2xl py-4 px-6 gap-[10px] bg-desa-red"
+        v-if="can('development-delete')"
       >
         <p class="font-medium text-white">Hapus Data</p>
         <img
@@ -30,6 +31,7 @@
         />
       </button>
       <router-link
+        v-if="can('development-edit')"
         :to="{ name: 'edit-development', params: { id: route.params.id } }"
         class="flex items-center rounded-2xl py-4 px-6 gap-[10px] bg-desa-black"
       >
@@ -748,10 +750,12 @@
 <script setup>
 import ModalDelete from "@/components/ui/ModalDelete.vue";
 import { formatRupiah, formatToClientTimezone } from "@/helpers/format";
+import { can } from "@/helpers/permissionHelper";
 import router from "@/router";
+import { useAuthStore } from "@/stores/auth";
 import { useDevelopmentStore } from "@/stores/development";
 import { storeToRefs } from "pinia";
-import { onMounted, ref } from "vue";
+import { computed, onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
 
 const developmentStore = useDevelopmentStore();
@@ -774,6 +778,10 @@ const handleDelete = async () => {
 
   router.push({ name: "development" });
 };
+
+const canEditDevelopment = computed(() => {
+  return can("development-edit");
+});
 
 onMounted(() => {
   loadData();
