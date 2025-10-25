@@ -89,12 +89,20 @@ const items = [
     path: "/",
     iconActive: iconChartActive,
     iconInActive: iconChartInActive,
+    permissions: "dashboard-menu",
+  },
+  {
+    label: "Anggota Keluarga",
+    path: "/family-member",
+    iconActive: iconCrownActive,
+    iconInActive: iconCrownInActive,
   },
   {
     label: "Kepala Rumah",
     path: "/head-of-family",
     iconActive: iconCrownActive,
     iconInActive: iconCrownInActive,
+    permission: "head-of-family-menu",
   },
   {
     label: "Bantuan Sosial",
@@ -105,10 +113,12 @@ const items = [
       {
         label: "List Bansos",
         path: "/social-assistance",
+        permissions: "social-assistance-menu",
       },
       {
         label: "Pengajuan Bansos",
         path: "/social-assistance-recipient",
+        permissions: "social-assistance-recipient-menu",
       },
     ],
   },
@@ -121,10 +131,12 @@ const items = [
       {
         label: "Pembangunan",
         path: "/development",
+        permissions: "development-menu",
       },
       {
         label: "Event Desa",
         path: "/event",
+        permissions: "event-menu",
       },
     ],
   },
@@ -143,6 +155,8 @@ const filteredItems = computed(() => {
   // Jika role adalah 'head-of-family', filter item 'Kepala Rumah'
   if (role === "head-of-family") {
     return items.filter((item) => item.label !== "Kepala Rumah");
+  } else if (role === "admin") {
+    return items.filter((item) => item.label !== "Anggota Keluarga");
   }
 
   // Untuk role lain (misalnya 'admin'), kembalikan semua item

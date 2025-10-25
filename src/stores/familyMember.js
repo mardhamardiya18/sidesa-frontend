@@ -31,5 +31,47 @@ export const useFamilyMemberStore = defineStore("family-member", {
         this.loading = false;
       }
     },
+    async fetchFamilyMember(id) {
+      this.loading = true;
+
+      try {
+        const response = await axiosInstance.get(`family-member/${id}`);
+
+        return response.data.data;
+      } catch (error) {
+        this.error = handleError(error);
+      } finally {
+        this.loading = false;
+      }
+    },
+
+    async deleteFamilyMember(id) {
+      this.loading = true;
+
+      try {
+        const response = await axiosInstance.delete(`family-member/${id}`);
+
+        this.success = response.data.message;
+      } catch (error) {
+        this.error = handleError(error);
+      } finally {
+        this.loading = false;
+      }
+    },
+
+    async createFamilyMember(payload) {
+      this.loading = true;
+
+      try {
+        const response = await axiosInstance.post("family-member", payload);
+
+        router.push({ name: "family-member" });
+        this.success = response.data.message;
+      } catch (error) {
+        this.error = handleError(error);
+      } finally {
+        this.loading = false;
+      }
+    },
   },
 });

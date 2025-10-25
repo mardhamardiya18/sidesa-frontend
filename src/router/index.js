@@ -10,6 +10,9 @@ import Event from "@/views/event/Event.vue";
 import EventCreate from "@/views/event/EventCreate.vue";
 import EventEdit from "@/views/event/EventEdit.vue";
 import Events from "@/views/event/Events.vue";
+import FamilyMember from "@/views/family-member/familyMember.vue";
+import FamilyMemberCreate from "@/views/family-member/familyMemberCreate.vue";
+import FamilyMembers from "@/views/family-member/FamilyMembers.vue";
 
 import HeadOfFamilies from "@/views/head-of-family/HeadOfFamilies.vue";
 import HeadOfFamily from "@/views/head-of-family/HeadOfFamily.vue";
@@ -38,6 +41,25 @@ const router = createRouter({
           component: Dashboard,
           meta: { requiresAuth: true, permission: "dashboard-menu" },
         },
+        {
+          path: "/family-member",
+          name: "family-member",
+          component: FamilyMembers,
+          meta: { requiresAuth: true, permission: "family-member-list" },
+        },
+        {
+          path: "/family-member/:id",
+          name: "manage-family-member",
+          component: FamilyMember,
+          meta: { requiresAuth: true, permission: "family-member-list" },
+        },
+        {
+          path: "/family-member/create",
+          name: "create-family-member",
+          component: FamilyMemberCreate,
+          meta: { requiresAuth: true, permission: "family-member-create" },
+        },
+
         {
           path: "/head-of-family",
           name: "head-of-family",

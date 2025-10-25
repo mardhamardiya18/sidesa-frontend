@@ -107,7 +107,6 @@
     </form>
 
     <CardList
-      v-if="!loading"
       v-for="(socialAssistance, index) in socialAssistances"
       :key="index"
       :item="socialAssistance"
