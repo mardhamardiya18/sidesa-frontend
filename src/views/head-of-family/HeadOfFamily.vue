@@ -800,6 +800,7 @@
 
 <script setup>
 import ModalDelete from "@/components/ui/ModalDelete.vue";
+import { calculateAge } from "@/helpers/format";
 import { can } from "@/helpers/permissionHelper";
 import router from "@/router";
 import { useHeadOfFamilyStore } from "@/stores/HeadOfFamily";
@@ -813,17 +814,6 @@ const { deleteHeadOfFamily, fetchHeadOfFamily } = headOfFamilyStore;
 const { loading, headOfFamily, success, error } =
   storeToRefs(headOfFamilyStore);
 const route = useRoute();
-
-const calculateAge = (dateString) => {
-  const today = new Date();
-  const birthDate = new Date(dateString);
-  let age = today.getFullYear() - birthDate.getFullYear();
-  const m = today.getMonth() - birthDate.getMonth();
-  if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
-    age--;
-  }
-  return age;
-};
 
 const handleDelete = async () => {
   await deleteHeadOfFamily(route.params.id);

@@ -51,7 +51,14 @@
           class="flex size-14 shrink-0 rounded-full overflow-hidden bg-desa-foreshadow"
         >
           <img
+            v-if="user?.role === 'admin'"
             src="@/assets/images/photos/photo-1.png"
+            class="w-full h-full object-cover"
+            alt="photo"
+          />
+          <img
+            v-if="user?.role === 'head-of-family'"
+            :src="user?.head_of_family?.profile_picture"
             class="w-full h-full object-cover"
             alt="photo"
           />

@@ -30,7 +30,7 @@
             <p class="font-medium text-sm text-desa-secondary">Main Menu</p>
             <ul>
               <SidebarItem
-                v-for="(item, index) in items"
+                v-for="(item, index) in filteredItems"
                 :key="index"
                 :item="item"
               />
@@ -75,6 +75,13 @@ import iconBagActive from "@/assets/images/icons/bag-2-dark-green.svg";
 import iconBagInActive from "@/assets/images/icons/bag-2-secondary-green.svg";
 import iconBuilding4Active from "@/assets/images/icons/building-4-dark-green.svg";
 import iconBuilding4InActive from "@/assets/images/icons/building-4-secondary-green.svg";
+import { computed } from "vue";
+import { useAuthStore } from "@/stores/auth";
+import { storeToRefs } from "pinia";
+
+// --- Akses User Role ---
+const authStore = useAuthStore();
+const { user } = storeToRefs(authStore);
 
 const items = [
   {
@@ -128,6 +135,19 @@ const items = [
     iconInActive: iconBuilding4InActive,
   },
 ];
+
+const filteredItems = computed(() => {
+  // Pastikan user.value ada dan user.value.role tidak null
+  const role = user.value?.role;
+
+  // Jika role adalah 'head-of-family', filter item 'Kepala Rumah'
+  if (role === "head-of-family") {
+    return items.filter((item) => item.label !== "Kepala Rumah");
+  }
+
+  // Untuk role lain (misalnya 'admin'), kembalikan semua item
+  return items;
+});
 </script>
 
 <style lang="scss" scoped></style>

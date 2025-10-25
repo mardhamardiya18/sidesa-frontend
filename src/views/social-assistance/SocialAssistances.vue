@@ -2,6 +2,7 @@
   <div id="Header" class="flex items-center justify-between">
     <h1 class="font-semibold text-2xl">List Bantuan Sosial</h1>
     <router-link
+      v-if="can('social-assistance-create')"
       :to="{ name: 'create-social-assistance' }"
       class="flex items-center rounded-2xl py-4 px-6 gap-[10px] bg-desa-dark-green"
     >
@@ -119,6 +120,7 @@
 <script setup>
 import CardList from "@/components/social-assistance/CardList.vue";
 import Pagination from "@/components/ui/Pagination.vue";
+import { can } from "@/helpers/permissionHelper";
 import { useSosialAssistanceStore } from "@/stores/socialAssistance";
 import { debounce } from "lodash";
 import { storeToRefs } from "pinia";

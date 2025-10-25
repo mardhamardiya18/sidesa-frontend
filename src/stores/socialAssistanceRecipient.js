@@ -37,6 +37,22 @@ export const useSosialAssistanceRecipientStore = defineStore(
         }
       },
 
+      async fetchSocialAssistanceRecipients(params) {
+        this.loading = true;
+
+        try {
+          const response = await axiosInstance.get(
+            "social-assistance-recipient"
+          );
+
+          this.socialAssistanceRecipients = response.data.data;
+        } catch (error) {
+          this.error = handleError(error);
+        } finally {
+          this.loading = false;
+        }
+      },
+
       async fetchSocialAssistanceRecipient(id) {
         this.loading = true;
 
