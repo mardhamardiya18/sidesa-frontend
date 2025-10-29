@@ -42,6 +42,40 @@
     </button>
   </div>
 
+  <section
+    id="TabButtons"
+    class="w-full p-1 bg-desa-foreshadow rounded-full grid grid-cols-2 gap-3"
+  >
+    <button
+      type="button"
+      data-content="All"
+      :class="['tab-btn', 'group', { active: !filters.status }]"
+    >
+      <div
+        @click="filters.status = null"
+        class="group-[.active]:bg-desa-dark-green group-[.active]:text-white rounded-full py-[18px] flex justify-center items-center text-center text-desa-dark-green font-medium leading-5 transition-all duration-300"
+      >
+        <span>Semua Pembangunan</span>
+      </div>
+    </button>
+    <button
+      type="button"
+      data-content="My-applications"
+      :class="[
+        'tab-btn',
+        'group',
+        { active: filters.status === 'my-applications' },
+      ]"
+    >
+      <div
+        @click="filters.status = 'my-applications'"
+        class="group-[.active]:bg-desa-dark-green group-[.active]:text-white rounded-full py-[18px] flex justify-center items-center text-center text-desa-dark-green font-medium leading-5 transition-all duration-300"
+      >
+        <span>My Applications</span>
+      </div>
+    </button>
+  </section>
+
   <section id="List-Pembangunan-Desa" class="flex flex-col gap-[14px]">
     <form id="Page-Search" class="flex items-center justify-between">
       <div class="flex flex-col gap-3 w-[370px] shrink-0">

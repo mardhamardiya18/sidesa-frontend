@@ -72,7 +72,7 @@
     </button>
   </div>
 
-  <div class="flex flex-col gap-[14px]">
+  <div v-if="user.role === 'admin'" class="flex flex-col gap-[14px]">
     <section
       id="Informasi"
       class="flex flex-col rounded-3xl p-6 gap-6 bg-white"
@@ -324,6 +324,15 @@
         <div id="All" class="flex flex-col gap-6">
           <div
             class="card flex flex-col gap-6 rounded-3xl p-6 border border-desa-background bg-white"
+            v-if="development.development_applicants?.length === 0"
+          >
+            <p>No applicant data was found.</p>
+          </div>
+          <div
+            v-else
+            v-for="(item, index) in development.development_applicants"
+            :key="index"
+            class="card flex flex-col gap-6 rounded-3xl p-6 border border-desa-background bg-white"
           >
             <div class="flex items-center justify-between">
               <p class="flex items-center gap-1">
@@ -332,16 +341,27 @@
                   class="flex size-[18px] shrink-0"
                   alt="icon"
                 />
-                <span class="font-medium text-sm text-desa-secondary"
-                  >Tue, 09 Jan 2025</span
-                >
+                <span class="font-medium text-sm text-desa-secondary">{{
+                  formatDateTime(item.created_at)
+                }}</span>
               </p>
               <div
-                class="badge rounded-full p-3 gap-2 flex w-[100px] justify-center shrink-0 bg-desa-yellow"
+                class="badge rounded-full p-3 gap-2 flex w-[100px] justify-center shrink-0"
+                :class="{
+                  'bg-desa-red': item.status === 'pending',
+                  'bg-desa-soft-green': item.status === 'approved',
+                  'bg-desa-black': item.status === 'rejected',
+                }"
               >
-                <span class="font-semibold text-xs text-white uppercase"
-                  >Menunggu</span
-                >
+                <span class="font-semibold text-xs text-white uppercase">{{
+                  item.status === "pending"
+                    ? "menunggu"
+                    : item.status === "approved"
+                    ? "disetujui"
+                    : item.status === "rejected"
+                    ? "ditolak"
+                    : "unknown"
+                }}</span>
               </div>
             </div>
             <hr class="border-desa-background" />
@@ -358,7 +378,7 @@
                 </div>
                 <div class="flex flex-col gap-1">
                   <p class="font-semibold text-lg leading-5 text-desa-black">
-                    Feri Prio Utomo
+                    {{ item.user?.name }}
                   </p>
                   <p class="flex items-center gap-1">
                     <img
@@ -402,340 +422,465 @@
                 >
                   <span class="font-medium text-white">Setuju</span>
                 </button>
-              </div>
-            </div>
-          </div>
-          <div
-            class="card flex flex-col gap-6 rounded-3xl p-6 border border-desa-background bg-white"
-          >
-            <div class="flex items-center justify-between">
-              <p class="flex items-center gap-1">
-                <img
-                  src="@/assets/images/icons/calendar-2-secondary-green.svg"
-                  class="flex size-[18px] shrink-0"
-                  alt="icon"
-                />
-                <span class="font-medium text-sm text-desa-secondary"
-                  >Tue, 09 Jan 2025</span
-                >
-              </p>
-              <div
-                class="badge rounded-full p-3 gap-2 flex w-[100px] justify-center shrink-0 bg-desa-yellow"
-              >
-                <span class="font-semibold text-xs text-white uppercase"
-                  >Menunggu</span
-                >
-              </div>
-            </div>
-            <hr class="border-desa-background" />
-            <div class="flex items-center gap-6 justify-between">
-              <div class="flex items-center gap-3 w-[302px] shrink-0">
-                <div
-                  class="flex size-[54px] rounded-full bg-desa-foreshadow overflow-hidden"
-                >
-                  <img
-                    src="@/assets/images/photos/kk-photo-1.png"
-                    class="w-full h-full object-cover"
-                    alt="icon"
-                  />
-                </div>
-                <div class="flex flex-col gap-1">
-                  <p class="font-semibold text-lg leading-5 text-desa-black">
-                    Feri Prio Utomo
-                  </p>
-                  <p class="flex items-center gap-1">
-                    <img
-                      src="@/assets/images/icons/briefcase-secondary-green.svg"
-                      class="flex size-[18px] shrink-0"
-                      alt="icon"
-                    />
-                    <span class="font-medium text-sm text-desa-secondary"
-                      >Tukang Bangunan</span
-                    >
-                  </p>
-                </div>
-              </div>
-              <div class="flex items-center gap-3 w-[236px] shrink-0">
-                <div class="flex flex-col gap-1">
-                  <p class="flex items-center gap-1">
-                    <img
-                      src="@/assets/images/icons/keyboard-secondary-green.svg"
-                      class="flex size-[18px] shrink-0"
-                      alt="icon"
-                    />
-                    <span class="font-medium text-sm text-desa-secondary"
-                      >NIK</span
-                    >
-                  </p>
-                  <p
-                    class="font-semibold text-lg leading-5 text-desa-dark-green text-nowrap"
-                  >
-                    30183910948390193
-                  </p>
-                </div>
-              </div>
-              <div class="flex items-center gap-3 justify-end shrink-0">
-                <button
-                  class="flex items-center w-[120px] justify-center shrink-0 gap-[10px] rounded-2xl py-4 px-6 bg-desa-red/10"
-                >
-                  <span class="font-medium text-desa-red">Tolak</span>
-                </button>
-                <button
-                  class="flex items-center w-[120px] justify-center shrink-0 gap-[10px] rounded-2xl py-4 px-6 bg-desa-dark-green"
-                >
-                  <span class="font-medium text-white">Setuju</span>
-                </button>
-              </div>
-            </div>
-          </div>
-          <div
-            class="card flex flex-col gap-6 rounded-3xl p-6 border border-desa-background bg-white"
-          >
-            <div class="flex items-center justify-between">
-              <p class="flex items-center gap-1">
-                <img
-                  src="@/assets/images/icons/calendar-2-secondary-green.svg"
-                  class="flex size-[18px] shrink-0"
-                  alt="icon"
-                />
-                <span class="font-medium text-sm text-desa-secondary"
-                  >Tue, 09 Jan 2025</span
-                >
-              </p>
-              <div
-                class="badge rounded-full p-3 gap-2 flex w-[100px] justify-center shrink-0 bg-desa-yellow"
-              >
-                <span class="font-semibold text-xs text-white uppercase"
-                  >Menunggu</span
-                >
-              </div>
-            </div>
-            <hr class="border-desa-background" />
-            <div class="flex items-center gap-6 justify-between">
-              <div class="flex items-center gap-3 w-[302px] shrink-0">
-                <div
-                  class="flex size-[54px] rounded-full bg-desa-foreshadow overflow-hidden"
-                >
-                  <img
-                    src="@/assets/images/photos/kk-photo-1.png"
-                    class="w-full h-full object-cover"
-                    alt="icon"
-                  />
-                </div>
-                <div class="flex flex-col gap-1">
-                  <p class="font-semibold text-lg leading-5 text-desa-black">
-                    Feri Prio Utomo
-                  </p>
-                  <p class="flex items-center gap-1">
-                    <img
-                      src="@/assets/images/icons/briefcase-secondary-green.svg"
-                      class="flex size-[18px] shrink-0"
-                      alt="icon"
-                    />
-                    <span class="font-medium text-sm text-desa-secondary"
-                      >Tukang Bangunan</span
-                    >
-                  </p>
-                </div>
-              </div>
-              <div class="flex items-center gap-3 w-[236px] shrink-0">
-                <div class="flex flex-col gap-1">
-                  <p class="flex items-center gap-1">
-                    <img
-                      src="@/assets/images/icons/keyboard-secondary-green.svg"
-                      class="flex size-[18px] shrink-0"
-                      alt="icon"
-                    />
-                    <span class="font-medium text-sm text-desa-secondary"
-                      >NIK</span
-                    >
-                  </p>
-                  <p
-                    class="font-semibold text-lg leading-5 text-desa-dark-green text-nowrap"
-                  >
-                    30183910948390193
-                  </p>
-                </div>
-              </div>
-              <div class="flex items-center gap-3 justify-end shrink-0">
-                <button
-                  class="flex items-center w-[120px] justify-center shrink-0 gap-[10px] rounded-2xl py-4 px-6 bg-desa-red/10"
-                >
-                  <span class="font-medium text-desa-red">Tolak</span>
-                </button>
-                <button
-                  class="flex items-center w-[120px] justify-center shrink-0 gap-[10px] rounded-2xl py-4 px-6 bg-desa-dark-green"
-                >
-                  <span class="font-medium text-white">Setuju</span>
-                </button>
-              </div>
-            </div>
-          </div>
-          <div
-            class="card flex flex-col gap-6 rounded-3xl p-6 border border-desa-background bg-white"
-          >
-            <div class="flex items-center justify-between">
-              <p class="flex items-center gap-1">
-                <img
-                  src="@/assets/images/icons/calendar-2-secondary-green.svg"
-                  class="flex size-[18px] shrink-0"
-                  alt="icon"
-                />
-                <span class="font-medium text-sm text-desa-secondary"
-                  >Tue, 09 Jan 2025</span
-                >
-              </p>
-              <div
-                class="badge rounded-full p-3 gap-2 flex w-[100px] justify-center shrink-0 bg-desa-red"
-              >
-                <span class="font-semibold text-xs text-white uppercase"
-                  >Ditolak</span
-                >
-              </div>
-            </div>
-            <hr class="border-desa-background" />
-            <div class="flex items-center gap-6 justify-between">
-              <div class="flex items-center gap-3 w-[302px] shrink-0">
-                <div
-                  class="flex size-[54px] rounded-full bg-desa-foreshadow overflow-hidden"
-                >
-                  <img
-                    src="@/assets/images/photos/kk-photo-1.png"
-                    class="w-full h-full object-cover"
-                    alt="icon"
-                  />
-                </div>
-                <div class="flex flex-col gap-1">
-                  <p class="font-semibold text-lg leading-5 text-desa-black">
-                    Feri Prio Utomo
-                  </p>
-                  <p class="flex items-center gap-1">
-                    <img
-                      src="@/assets/images/icons/briefcase-secondary-green.svg"
-                      class="flex size-[18px] shrink-0"
-                      alt="icon"
-                    />
-                    <span class="font-medium text-sm text-desa-secondary"
-                      >Tukang Bangunan</span
-                    >
-                  </p>
-                </div>
-              </div>
-              <div class="flex items-center gap-3 w-[236px] shrink-0">
-                <div class="flex flex-col gap-1">
-                  <p class="flex items-center gap-1">
-                    <img
-                      src="@/assets/images/icons/keyboard-secondary-green.svg"
-                      class="flex size-[18px] shrink-0"
-                      alt="icon"
-                    />
-                    <span class="font-medium text-sm text-desa-secondary"
-                      >NIK</span
-                    >
-                  </p>
-                  <p
-                    class="font-semibold text-lg leading-5 text-desa-dark-green text-nowrap"
-                  >
-                    30183910948390193
-                  </p>
-                </div>
-              </div>
-              <div
-                class="flex items-center gap-3 justify-end shrink-0 w-[252px]"
-              >
-                <a
-                  href="#"
-                  class="flex items-center shrink-0 gap-[10px] rounded-2xl py-4 px-6 bg-desa-black"
-                >
-                  <span class="font-medium text-white">Manage</span>
-                </a>
-              </div>
-            </div>
-          </div>
-          <div
-            class="card flex flex-col gap-6 rounded-3xl p-6 border border-desa-background bg-white"
-          >
-            <div class="flex items-center justify-between">
-              <p class="flex items-center gap-1">
-                <img
-                  src="@/assets/images/icons/calendar-2-secondary-green.svg"
-                  class="flex size-[18px] shrink-0"
-                  alt="icon"
-                />
-                <span class="font-medium text-sm text-desa-secondary"
-                  >Tue, 09 Jan 2025</span
-                >
-              </p>
-              <div
-                class="badge rounded-full p-3 gap-2 flex w-[100px] justify-center shrink-0 bg-desa-dark-green"
-              >
-                <span class="font-semibold text-xs text-white uppercase"
-                  >Diterima</span
-                >
-              </div>
-            </div>
-            <hr class="border-desa-background" />
-            <div class="flex items-center gap-6 justify-between">
-              <div class="flex items-center gap-3 w-[302px] shrink-0">
-                <div
-                  class="flex size-[54px] rounded-full bg-desa-foreshadow overflow-hidden"
-                >
-                  <img
-                    src="@/assets/images/photos/kk-photo-1.png"
-                    class="w-full h-full object-cover"
-                    alt="icon"
-                  />
-                </div>
-                <div class="flex flex-col gap-1">
-                  <p class="font-semibold text-lg leading-5 text-desa-black">
-                    Feri Prio Utomo
-                  </p>
-                  <p class="flex items-center gap-1">
-                    <img
-                      src="@/assets/images/icons/briefcase-secondary-green.svg"
-                      class="flex size-[18px] shrink-0"
-                      alt="icon"
-                    />
-                    <span class="font-medium text-sm text-desa-secondary"
-                      >Tukang Bangunan</span
-                    >
-                  </p>
-                </div>
-              </div>
-              <div class="flex items-center gap-3 w-[236px] shrink-0">
-                <div class="flex flex-col gap-1">
-                  <p class="flex items-center gap-1">
-                    <img
-                      src="@/assets/images/icons/keyboard-secondary-green.svg"
-                      class="flex size-[18px] shrink-0"
-                      alt="icon"
-                    />
-                    <span class="font-medium text-sm text-desa-secondary"
-                      >NIK</span
-                    >
-                  </p>
-                  <p
-                    class="font-semibold text-lg leading-5 text-desa-dark-green text-nowrap"
-                  >
-                    30183910948390193
-                  </p>
-                </div>
-              </div>
-              <div
-                class="flex items-center gap-3 justify-end shrink-0 w-[252px]"
-              >
-                <a
-                  href="#"
-                  class="flex items-center shrink-0 gap-[10px] rounded-2xl py-4 px-6 bg-desa-black"
-                >
-                  <span class="font-medium text-white">Manage</span>
-                </a>
               </div>
             </div>
           </div>
         </div>
       </div>
     </section>
+  </div>
+
+  <div v-if="user.role === 'head-of-family'" class="flex gap-[14px]">
+    <div
+      class="w-[calc(545/1000*100%)] h-fit shrink-0 rounded-2xl bg-white p-6 flex flex-col gap-6"
+    >
+      <h2 class="font-medium text-sm leading-[17.5px] text-desa-secondary">
+        Informasi Pembangunan
+      </h2>
+      <section id="Hero" class="flex items-center justify-between">
+        <div
+          class="flex justify-center items-center w-[120px] h-[100px] shrink-0 rounded-3xl overflow-hidden"
+        >
+          <img
+            :src="development.thumbnail"
+            alt="image"
+            class="size-full object-cover"
+          />
+        </div>
+        <span
+          class="p-3 rounded-full bg-desa-orange font-semibold text-xs leading-[15px] text-white"
+          >BELUM DIMULAI</span
+        >
+      </section>
+      <section id="Title" class="flex flex-col gap-[6px]">
+        <h3 class="font-semibold text-xl leading-7">
+          {{ development.name }}
+        </h3>
+        <div class="flex items-center gap-1">
+          <p class="font-medium leading-5 text-desa-secondary">
+            Penanggung Jawab:
+          </p>
+          <p class="font-medium leading-5 text-desa-dark-green">
+            {{ development.person_in_charge }}
+          </p>
+        </div>
+      </section>
+      <hr class="border-desa-background" />
+      <section id="Points" class="flex flex-col gap-6">
+        <div class="point flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <div class="p-[14px] shrink-0 bg-[#FF507017] rounded-2xl">
+              <img
+                src="@/assets/images/icons/wallet-3-red.svg"
+                alt="icon"
+                class="size-6 shrink-0"
+              />
+            </div>
+            <div class="flex flex-col gap-1">
+              <p class="font-semibold text-lg leading-[22.5px] text-desa-red">
+                Rp{{ formatRupiah(development.budget) }}
+              </p>
+              <h3
+                class="font-medium text-sm leading-[17.5px] text-desa-secondary"
+              >
+                Dana Pembangunan
+              </h3>
+            </div>
+          </div>
+        </div>
+        <hr class="border-desa-background" />
+        <div class="point flex items-center gap-3">
+          <div class="p-[14px] shrink-0 bg-[#005CAA17] rounded-2xl">
+            <img
+              src="@/assets/images/icons/profile-2user-blue.svg"
+              alt="icon"
+              class="size-6 shrink-0"
+            />
+          </div>
+          <div class="flex flex-col gap-1">
+            <p class="font-semibold text-lg leading-[22.5px] text-desa-blue">
+              {{ development.development_applicants?.length }} Warga
+            </p>
+            <h3
+              class="font-medium text-sm leading-[17.5px] text-desa-secondary"
+            >
+              Total Partisipasi
+            </h3>
+          </div>
+        </div>
+        <hr class="border-desa-background" />
+        <div class="point flex items-center gap-3">
+          <div class="p-[14px] shrink-0 bg-desa-foreshadow rounded-2xl">
+            <img
+              src="@/assets/images/icons/calendar-2-dark-green.svg"
+              alt="icon"
+              class="size-6 shrink-0"
+            />
+          </div>
+          <div class="flex flex-col gap-1">
+            <p
+              class="font-semibold text-lg leading-[22.5px] text-desa-dark-green"
+            >
+              {{ development.start_date }}
+            </p>
+            <h3
+              class="font-medium text-sm leading-[17.5px] text-desa-secondary"
+            >
+              Tanggal Pelaksanaan
+            </h3>
+          </div>
+        </div>
+        <hr class="border-desa-background" />
+      </section>
+      <section id="Tentang-Pembangunan" class="flex flex-col gap-3">
+        <h2 class="font-medium text-sm leading-[17.5px] text-desa-secondary">
+          Tentang Pembangunan
+        </h2>
+        <p class="font-medium leading-8">
+          {{ development.description }}
+        </p>
+      </section>
+    </div>
+    <div class="flex flex-col gap-6 rounded-2xl flex-1 h-fit bg-white p-6">
+      <section id="Applicant-Details" class="flex flex-col gap-6">
+        <h2 class="font-medium text-sm leading-[17.5px] text-desa-secondary">
+          Applicant Details
+        </h2>
+        <div class="point flex items-center gap-3">
+          <div class="p-[14px] shrink-0 bg-desa-foreshadow rounded-2xl">
+            <img
+              src="@/assets/images/icons/timer-dark-green.svg"
+              alt="icon"
+              class="size-6 shrink-0"
+            />
+          </div>
+          <div class="flex flex-col gap-1">
+            <p
+              class="font-semibold text-lg leading-[22.5px] text-desa-dark-green"
+            >
+              {{ development.days }} Hari
+            </p>
+            <h3
+              class="font-medium text-sm leading-[17.5px] text-desa-secondary"
+            >
+              Days Needed
+            </h3>
+          </div>
+        </div>
+        <hr class="border-desa-background" />
+        <div class="point flex items-center gap-3">
+          <div class="p-[14px] shrink-0 bg-desa-foreshadow rounded-2xl">
+            <img
+              src="@/assets/images/icons/calendar-tick-dark-green.svg"
+              alt="icon"
+              class="size-6 shrink-0"
+            />
+          </div>
+          <div class="flex flex-col gap-1">
+            <p
+              class="font-semibold text-lg leading-[22.5px] text-desa-dark-green"
+            >
+              {{ formatToClientTimezone(development.end_date) }}
+            </p>
+            <h3
+              class="font-medium text-sm leading-[17.5px] text-desa-secondary"
+            >
+              Perkiraan Selesai
+            </h3>
+          </div>
+        </div>
+        <hr class="border-desa-background" />
+        <div class="point flex items-center gap-3">
+          <div class="p-[14px] shrink-0 bg-desa-foreshadow rounded-2xl">
+            <img
+              src="@/assets/images/icons/dollar-square-dark-green.svg"
+              alt="icon"
+              class="size-6 shrink-0"
+            />
+          </div>
+          <div class="flex flex-col gap-1">
+            <p
+              class="font-semibold text-lg leading-[22.5px] text-desa-dark-green"
+            >
+              Pembayaran diatur di balai desa.
+            </p>
+            <h3
+              class="font-medium text-sm leading-[17.5px] text-desa-secondary"
+            >
+              Bayaran Kerja
+            </h3>
+          </div>
+        </div>
+        <hr class="border-desa-background" />
+      </section>
+      <form @submit.prevent="handleSubmit" class="flex flex-col gap-6">
+        <button
+          type="button"
+          id="Pelamar-Applicant-Button"
+          class="flex items-center justify-between"
+          @click="showModalApplicant = true"
+        >
+          <div class="flex items-center gap-3">
+            <div
+              class="flex items-center justify-center size-[52px] shrink-0 rounded-full bg-desa-foreshadow overflow-hidden"
+            >
+              <img
+                id="default-Profile-Image"
+                src="@/assets/images/photos/kk-preview.png"
+                alt="image"
+                class="size-full object-cover"
+              />
+            </div>
+            <div class="flex flex-col gap-1 items-start">
+              <p
+                id="default-Profile-Name"
+                class="font-semibold text-lg leading-[22.5px]"
+              >
+                {{
+                  applicant.user_id ? selectedUser.name : "Pelamar Applicant"
+                }}
+              </p>
+              <div class="flex items-center gap-1">
+                <img
+                  id="Icon-If-Filled"
+                  src="@/assets/images/icons/briefcase-secondary-green.svg"
+                  alt="icon"
+                  class="[&.input-is-filled]:block hidden size-[18px] shrink-0"
+                />
+                <h3
+                  id="default-Profile-Status"
+                  class="font-medium text-sm leading-[17.5px] text-desa-secondary"
+                >
+                  {{ applicant.user_id ? "" : "Pilih Anggota Keluarga" }}
+                </h3>
+              </div>
+            </div>
+          </div>
+          <img
+            src="@/assets/images/icons/arrow-square-right-secondary-green.svg"
+            alt="icon"
+            class="size-6 shrink-0"
+          />
+        </button>
+        <hr class="border-desa-background" />
+        <button
+          :disabled="loadingApplicant"
+          type="submit"
+          class="font-medium leading-5 text-white py-[18px] flex justify-center items-center bg-desa-dark-green rounded-2xl gap-2 disabled:bg-desa-soft-green disabled:cursor-not-allowed"
+        >
+          <span v-if="!loadingApplicant">Confirm & Apply Now</span>
+          <span v-else>Loading...</span>
+        </button>
+        <!-- modal -->
+        <div
+          id="modal"
+          class="fixed inset-0 flex items-center justify-center bg-[#001B1ACC] z-50"
+          v-if="showModalApplicant"
+        >
+          <div class="bg-white rounded-2xl p-4 w-[760px] flex flex-col gap-6">
+            <div class="flex items-center justify-between">
+              <div class="flex flex-col gap-2">
+                <h3 class="font-semibold text-2xl leading-[30px]">
+                  Pilih Pelamar Applicant
+                </h3>
+                <p
+                  class="font-medium text-sm leading-[17.5px] text-desa-secondary"
+                >
+                  Pilih salah satu anggota keluarga
+                </p>
+              </div>
+              <button
+                @click="showModalApplicant = false"
+                id="closeModal"
+                class="py-4 px-6 border border-desa-background rounded-2xl bg-white flex items-center gap-2"
+              >
+                <img
+                  src="@/assets/images/icons/close-square-secondary-green.svg"
+                  alt="icon"
+                  class="size-6 shrink-0"
+                />
+                <p class="font-medium leading-5 text-desa-secondary">Tutup</p>
+              </button>
+            </div>
+            <hr class="border-desa-background" />
+            <ul
+              id="Profile-List"
+              class="flex flex-col gap-6 max-h-[497px] overflow-y-auto hide-scrollbar px-[1.5px] pb-[2px]"
+            >
+              <li>
+                <label class="profile flex flex-col gap-3 bg-white rounded-3xl">
+                  <h4
+                    class="font-medium leading-[17.5px] text-sm text-desa-secondary"
+                  >
+                    You
+                  </h4>
+                  <div
+                    class="data rounded-2xl border border-desa-background p-6 flex items-center gap-[49px] hover:ring-[1.5px] hover:ring-desa-dark-green transition-all duration-300"
+                  >
+                    <div class="name flex items-center gap-3">
+                      <div
+                        class="flex size-[64px] shrink-0 rounded-full overflow-hidden bg-desa-foreshadow"
+                      >
+                        <img
+                          :src="user.head_of_family?.profile_picture"
+                          class="w-full h-full object-cover"
+                          alt="photo"
+                        />
+                      </div>
+                      <div class="flex flex-col gap-[6px]">
+                        <h5
+                          class="font-semibold text-lg leading-[22.5px] truncate w-[164px]"
+                        >
+                          {{ user.name }}
+                        </h5>
+                        <div class="flex items-center gap-1">
+                          <img
+                            src="@/assets/images/icons/briefcase-secondary-green.svg"
+                            alt="icon"
+                            class="size-[18px] shrink-0"
+                          />
+                          <p
+                            class="font-medium leading-5 text-desa-secondary truncate w-[142px]"
+                          >
+                            {{ user.head_of_family?.occupation }}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="nik flex flex-col gap-[6px]">
+                      <div class="flex items-center gap-1">
+                        <img
+                          src="@/assets/images/icons/keyboard-secondary-green.svg"
+                          alt="icon"
+                          class="size-[18px] shrink-0"
+                        />
+                        <h5
+                          class="font-medium text-sm leading-[17.5px] text-desa-secondary"
+                        >
+                          NIK
+                        </h5>
+                      </div>
+                      <p class="font-semibold leading-5 truncate w-[155px]">
+                        {{ user.head_of_family?.identity_number }}
+                      </p>
+                    </div>
+                    <div class="umur flex flex-col gap-[6px]">
+                      <div class="flex items-center gap-1">
+                        <img
+                          src="@/assets/images/icons/timer-secondary-green.svg"
+                          alt="icon"
+                          class="size-[18px] shrink-0"
+                        />
+                        <h5
+                          class="font-medium text-sm leading-[17.5px] text-desa-secondary"
+                        >
+                          Umur
+                        </h5>
+                      </div>
+                      <p class="font-semibold leading-5 truncate w-[92px]">
+                        {{ calculateAge(user.head_of_family?.date_of_birth) }}
+                        Tahun
+                      </p>
+                    </div>
+                    <input
+                      @click="handleSelectApplicant(user)"
+                      required
+                      type="radio"
+                      name="anggota1"
+                      class="flex size-[30px] shrink-0 accent-desa-dark-green"
+                    />
+                  </div>
+                </label>
+              </li>
+              <li v-for="(member, index) in familyMembers" :key="index">
+                <label class="profile flex flex-col gap-3 bg-white rounded-3xl">
+                  <h4
+                    class="font-medium leading-[17.5px] text-sm text-desa-secondary"
+                  >
+                    Anggota Keluarga ({{ index + 1 }})
+                  </h4>
+                  <div
+                    class="data rounded-2xl border border-desa-background p-6 flex items-center gap-[49px] hover:ring-[1.5px] hover:ring-desa-dark-green transition-all duration-300"
+                  >
+                    <div class="name flex items-center gap-3">
+                      <div
+                        class="flex size-[64px] shrink-0 rounded-full overflow-hidden bg-desa-foreshadow"
+                      >
+                        <img
+                          :src="member.profile_picture"
+                          class="w-full h-full object-cover"
+                          alt="photo"
+                        />
+                      </div>
+                      <div class="flex flex-col gap-[6px]">
+                        <h5
+                          class="font-semibold text-lg leading-[22.5px] truncate w-[164px]"
+                        >
+                          {{ member.user?.name }}
+                        </h5>
+                        <div class="flex items-center gap-1">
+                          <img
+                            src="@/assets/images/icons/briefcase-secondary-green.svg"
+                            alt="icon"
+                            class="size-[18px] shrink-0"
+                          />
+                          <p
+                            class="font-medium leading-5 text-desa-secondary truncate w-[142px]"
+                          >
+                            {{ member.occupation }}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="nik flex flex-col gap-[6px]">
+                      <div class="flex items-center gap-1">
+                        <img
+                          src="@/assets/images/icons/keyboard-secondary-green.svg"
+                          alt="icon"
+                          class="size-[18px] shrink-0"
+                        />
+                        <h5
+                          class="font-medium text-sm leading-[17.5px] text-desa-secondary"
+                        >
+                          NIK
+                        </h5>
+                      </div>
+                      <p class="font-semibold leading-5 truncate w-[155px]">
+                        {{ member.identity_number }}
+                      </p>
+                    </div>
+                    <div class="umur flex flex-col gap-[6px]">
+                      <div class="flex items-center gap-1">
+                        <img
+                          src="@/assets/images/icons/timer-secondary-green.svg"
+                          alt="icon"
+                          class="size-[18px] shrink-0"
+                        />
+                        <h5
+                          class="font-medium text-sm leading-[17.5px] text-desa-secondary"
+                        >
+                          Umur
+                        </h5>
+                      </div>
+                      <p class="font-semibold leading-5 truncate w-[92px]">
+                        {{ calculateAge(member.date_of_birth) }} Tahun
+                      </p>
+                    </div>
+                    <input
+                      @click="handleSelectApplicant(member.user)"
+                      required
+                      type="radio"
+                      :name="'anggota' + (index + 2)"
+                      class="flex size-[30px] shrink-0 accent-desa-dark-green"
+                    />
+                  </div>
+                </label>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </form>
+    </div>
   </div>
 
   <ModalDelete
@@ -749,28 +894,62 @@
 
 <script setup>
 import ModalDelete from "@/components/ui/ModalDelete.vue";
-import { formatRupiah, formatToClientTimezone } from "@/helpers/format";
+import {
+  calculateAge,
+  formatDateTime,
+  formatRupiah,
+  formatToClientTimezone,
+} from "@/helpers/format";
 import { can } from "@/helpers/permissionHelper";
 import router from "@/router";
 import { useAuthStore } from "@/stores/auth";
 import { useDevelopmentStore } from "@/stores/development";
+import { useDevelopmentApplicantStore } from "@/stores/developmentApplicant";
+import { useFamilyMemberStore } from "@/stores/familyMember";
 import { storeToRefs } from "pinia";
-import { computed, onMounted, ref } from "vue";
+import { computed, onMounted, ref, watch } from "vue";
 import { useRoute } from "vue-router";
 
-const developmentStore = useDevelopmentStore();
 const route = useRoute();
+
+const developmentStore = useDevelopmentStore();
+const developmentApplicantStore = useDevelopmentApplicantStore();
+
+const authStore = useAuthStore();
+const { user } = storeToRefs(authStore);
+
+const familyMemberStore = useFamilyMemberStore();
+const { fetchFamilyMembers } = familyMemberStore;
+const { familyMembers } = storeToRefs(familyMemberStore);
 
 const { fetchDevelopment, fetchDeleteDevelopment } = developmentStore;
 const { loading, error, success } = storeToRefs(developmentStore);
 
+const { fetchDevelopmentApplicantStore } = developmentApplicantStore;
+const { loading: loadingApplicant } = storeToRefs(developmentApplicantStore);
+
 const development = ref({});
+
+const applicant = ref({
+  development_id: null,
+  user_id: null,
+});
+
+const selectedUser = ref({
+  name: "",
+});
+
 const showModalDelete = ref(false);
+const showModalApplicant = ref(false);
 
 const loadData = async () => {
   const res = await fetchDevelopment(route.params.id);
 
   development.value = res;
+  development.value.days = Math.ceil(
+    (new Date(res.end_date) - new Date(res.start_date)) / (1000 * 60 * 60 * 24)
+  );
+  applicant.value.development_id = res.id;
 };
 
 const handleDelete = async () => {
@@ -779,9 +958,17 @@ const handleDelete = async () => {
   router.push({ name: "development" });
 };
 
-const canEditDevelopment = computed(() => {
-  return can("development-edit");
-});
+const handleSubmit = async () => {
+  await fetchDevelopmentApplicantStore({
+    ...applicant.value,
+  });
+};
+
+const handleSelectApplicant = (user) => {
+  applicant.value.user_id = user.id;
+  selectedUser.value.name = user.name;
+  showModalApplicant.value = false;
+};
 
 onMounted(() => {
   loadData();
@@ -789,6 +976,16 @@ onMounted(() => {
     success.value = null;
   }, 2500);
 });
+
+watch(
+  user,
+  (newUser) => {
+    if (newUser?.role === "head-of-family") {
+      fetchFamilyMembers();
+    }
+  },
+  { immediate: true }
+);
 </script>
 
 <style lang="scss" scoped></style>
