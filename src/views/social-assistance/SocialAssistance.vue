@@ -165,6 +165,7 @@
       </div>
     </section>
     <section
+      v-if="user.role === 'admin'"
       id="Penerima-Bansos-Terakhir"
       class="flex flex-col flex-1 h-fit shrink-0 rounded-3xl p-6 gap-6 bg-white"
     >
@@ -253,6 +254,235 @@
         </a>
       </div>
     </section>
+
+    <form
+      @submit.prevent="handleSubmit"
+      class="w-full"
+      v-if="user.role === 'head-of-family'"
+    >
+      <div class="flex flex-col gap-[14px] flex-1">
+        <section
+          id="Bank-Account-Detail"
+          class="rounded-2xl bg-white p-6 flex flex-col gap-6"
+        >
+          <h2 class="font-semibold leading-5">Bank Account Detail</h2>
+          <label id="Pilih-Bank">
+            <h3
+              class="font-medium text-sm leading-[17.5px] text-desa-secondary"
+            >
+              Kamu Pake Bank Apa?
+            </h3>
+            <div
+              class="flex flex-col gap-4 py-4 mt-4 bg-white border border-desa-background rounded-2xl"
+            >
+              <button
+                type="button"
+                data-expand="BankJ"
+                class="px-4 flex justify-between items-center"
+              >
+                <div class="flex items-center gap-2">
+                  <img
+                    src="@/assets/images/icons/bank-secondary-green.svg"
+                    alt="icon"
+                    class="size-6 shrink-0"
+                  />
+                  <h4 class="font-medium leading-5 text-desa-secondary">
+                    Pilih salah satu bank
+                  </h4>
+                </div>
+                <img
+                  id="BankArrow"
+                  src="@/assets/images/icons/arrow-down-secondary-green.svg"
+                  alt="icon"
+                  class="size-6 shrink-0 transition-all duration-300"
+                />
+              </button>
+              <div
+                id="BankJ"
+                class="border-t border-desa-background flex flex-col gap-4 pt-4 px-4"
+              >
+                <label
+                  id="Bca-Bank"
+                  class="flex items-center justify-between gap-4"
+                >
+                  <div class="flex items-center gap-4">
+                    <div
+                      class="rounded-2xl border border-desa-background bg-[#F2F7FA] w-[100px] h-[60px] shrink-0 px-[14px] py-5"
+                    >
+                      <img
+                        src="@/assets/images/thumbnails/kk-bca.png"
+                        alt=""
+                        class="size-full object-contain"
+                      />
+                    </div>
+                    <p class="font-medium leading-5 text-[#000000]">
+                      Bank Central Asia
+                    </p>
+                  </div>
+                  <input
+                    v-model="socialAssistanceRecipient.bank"
+                    value="bca"
+                    required
+                    type="radio"
+                    name="bank"
+                    id="Bca"
+                    class="peer flex size-[18px] shrink-0 accent-desa-dark-green"
+                  />
+                </label>
+                <hr class="border-desa-background" />
+                <label
+                  id="Mandiri-Bank"
+                  class="flex items-center justify-between gap-4"
+                >
+                  <div class="flex items-center gap-4">
+                    <div
+                      class="rounded-2xl border border-desa-background bg-[#F2F7FA] w-[100px] h-[60px] shrink-0 px-[14px] py-5"
+                    >
+                      <img
+                        src="@/assets/images/thumbnails/kk-mandiri.png"
+                        alt=""
+                        class="size-full object-contain"
+                      />
+                    </div>
+                    <p class="font-medium leading-5 text-[#000000]">
+                      Bank Mandiri
+                    </p>
+                  </div>
+                  <input
+                    v-model="socialAssistanceRecipient.bank"
+                    value="mandiri"
+                    required
+                    type="radio"
+                    name="bank"
+                    id="Mandiri"
+                    class="peer flex size-[18px] shrink-0 accent-desa-dark-green"
+                  />
+                </label>
+                <hr class="border-desa-background" />
+                <label
+                  id="Bni-Bank"
+                  class="flex items-center justify-between gap-4"
+                >
+                  <div class="flex items-center gap-4">
+                    <div
+                      class="rounded-2xl border border-desa-background bg-[#F2F7FA] w-[100px] h-[60px] shrink-0 px-[14px] py-5"
+                    >
+                      <img
+                        src="@/assets/images/thumbnails/kk-bni.png"
+                        alt=""
+                        class="size-full object-contain"
+                      />
+                    </div>
+                    <p class="font-medium leading-5 text-[#000000]">
+                      Bank Negara Indonesia
+                    </p>
+                  </div>
+                  <input
+                    v-model="socialAssistanceRecipient.bank"
+                    value="bni"
+                    required
+                    type="radio"
+                    name="bank"
+                    id="Bni"
+                    class="peer flex size-[18px] shrink-0 accent-desa-dark-green"
+                  />
+                </label>
+                <hr class="border-desa-background" />
+              </div>
+            </div>
+          </label>
+          <label id="Nomer-Rekening" class="flex flex-col gap-4">
+            <h3
+              class="font-medium text-sm leading-[17.5px] text-desa-secondary"
+            >
+              Nomor Rekening Bank
+            </h3>
+            <div class="relative">
+              <input
+                v-model="socialAssistanceRecipient.bank_account_number"
+                required
+                type="number"
+                placeholder="Masukan Nomor Rekening"
+                class="peer w-full py-[18px] rounded-2xl border border-desa-background pl-[48px] pr-4 focus:outline-none bg-white font-medium leading-5 placeholder:text-desa-secondary placeholder:font-medium placeholder:leading-5 focus:ring-[1.5px] focus:ring-desa-dark-green transition-all duration-300"
+              />
+              <img
+                src="@/assets/images/icons/card-secondary-green.svg"
+                alt="icon"
+                class="peer-placeholder-shown:block hidden size-6 shrink-0 absolute left-4 top-1/2 -translate-y-1/2"
+              />
+              <img
+                src="@/assets/images/icons/card-black.svg"
+                alt="icon"
+                class="peer-placeholder-shown:hidden size-6 shrink-0 absolute left-4 top-1/2 -translate-y-1/2"
+              />
+            </div>
+          </label>
+        </section>
+        <section
+          id="Ajukan-Bantuan-Sosial"
+          class="rounded-2xl bg-white p-6 flex flex-col gap-6"
+        >
+          <h2 class="font-semibold leading-5">Ajukan Bantuan Sosial</h2>
+          <div id="Nominal" class="flex flex-col gap-4">
+            <h3
+              class="font-medium text-sm leading-[17.5px] text-desa-secondary"
+            >
+              Nominal Pengajuan
+            </h3>
+            <label class="relative group peer w-full">
+              <input
+                v-model="socialAssistanceRecipient.amount"
+                type="text"
+                placeholder="Input amount"
+                class="appearance-none outline-none w-full h-14 rounded-2xl ring-[1.5px] ring-desa-background focus:ring-desa-dark-green py-4 pr-12 [&:placeholder-shown]:pl-12 pl-[70px] gap-2 font-medium placeholder:text-desa-secondary transition-all duration-300"
+              />
+              <div
+                class="absolute transform -translate-y-1/2 top-1/2 left-4 flex size-6 shrink-0"
+              >
+                <img
+                  src="@/assets/images/icons/receive-square-2-secondary-green.svg"
+                  class="size-6 hidden group-has-[:placeholder-shown]:flex"
+                  alt="icon"
+                />
+                <img
+                  src="@/assets/images/icons/receive-square-2-black.svg"
+                  class="size-6 flex group-has-[:placeholder-shown]:hidden"
+                  alt="icon"
+                />
+                <span
+                  class="text-desa-black ml-2 opacity-100 group-has-[:placeholder-shown]:opacity-0 transition-setup"
+                  >Rp</span
+                >
+              </div>
+            </label>
+          </div>
+          <label id="Nomer-Pemilik" class="flex flex-col gap-4">
+            <h3
+              class="font-medium text-sm leading-[17.5px] text-desa-secondary"
+            >
+              Deskripsi Bantuan Sosial
+            </h3>
+            <div class="relative">
+              <textarea
+                v-model="socialAssistanceRecipient.reason"
+                placeholder="Jelaskan lebih detail tentang bantuan"
+                name=""
+                id=""
+                class="w-full h-[224px] rounded-2xl peer p-4 border border-desa-background focus:outline-none bg-white font-medium leading-5 placeholder:text-desa-secondary placeholder:font-medium placeholder:leading-5 focus:ring-[1.5px] focus:ring-desa-dark-green transition-all duration-300 [&::-webkit-scrollbar]:hidden"
+              ></textarea>
+            </div>
+          </label>
+          <button
+            :disabled="loadingRecipient"
+            type="submit"
+            class="bg-desa-black rounded-2xl w-full py-[18px] flex justify-center items-center font-medium leading-5 text-white text-center"
+          >
+            <span v-if="!loadingRecipient">Ajukan</span>
+            <span v-else>Loading...</span>
+          </button>
+        </section>
+      </div>
+    </form>
   </div>
 
   <ModalDelete
@@ -266,22 +496,48 @@
 
 <script setup>
 import ModalDelete from "@/components/ui/ModalDelete.vue";
-import { formatRupiah, formatToClientTimezone } from "@/helpers/format";
+import {
+  formatRupiah,
+  formatToClientTimezone,
+  parseRupiah,
+} from "@/helpers/format";
 import { can } from "@/helpers/permissionHelper";
 import router from "@/router";
+import { useAuthStore } from "@/stores/auth";
 import { useSosialAssistanceStore } from "@/stores/socialAssistance";
+import { useSosialAssistanceRecipientStore } from "@/stores/socialAssistanceRecipient";
 import { storeToRefs } from "pinia";
-import { onMounted, ref } from "vue";
+import { onMounted, ref, watch } from "vue";
 import { useRoute } from "vue-router";
 
 const showModalDelete = ref(false);
+
 const socialAssistanceStore = useSosialAssistanceStore();
 const { fetchDeleteSocialAssistance, fetchSocialAssistance } =
   socialAssistanceStore;
 const { loading, success, error } = storeToRefs(socialAssistanceStore);
+
+const authStore = useAuthStore();
+const { user } = storeToRefs(authStore);
+
+const socialAssistanceRecipientStore = useSosialAssistanceRecipientStore();
+const { fetchSocialAssistanceRecipientStore } = socialAssistanceRecipientStore;
+const { loading: loadingRecipient } = storeToRefs(
+  socialAssistanceRecipientStore
+);
+
 const route = useRoute();
 
 const socialAssistance = ref({});
+
+const socialAssistanceRecipient = ref({
+  social_assistance_id: null,
+  amount: "",
+  reason: "",
+  bank: "",
+  bank_account_number: "",
+  status: "pending",
+});
 
 const handleDelete = async () => {
   await fetchDeleteSocialAssistance(route.params.id);
@@ -289,10 +545,18 @@ const handleDelete = async () => {
   router.push({ name: "social-assistance" });
 };
 
+const handleSubmit = async () => {
+  await fetchSocialAssistanceRecipientStore({
+    ...socialAssistanceRecipient.value,
+    amount: parseRupiah(socialAssistanceRecipient.value.amount),
+  });
+};
+
 const loadData = async () => {
   const data = await fetchSocialAssistance(route.params.id);
 
   socialAssistance.value = data;
+  socialAssistanceRecipient.value.social_assistance_id = data.id;
 };
 
 onMounted(() => {
@@ -301,6 +565,13 @@ onMounted(() => {
     success.value = null;
   }, 2500);
 });
+
+watch(
+  () => socialAssistanceRecipient.value.amount,
+  (newData) => {
+    socialAssistanceRecipient.value.amount = formatRupiah(newData);
+  }
+);
 </script>
 
 <style lang="scss" scoped></style>

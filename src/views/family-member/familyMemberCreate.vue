@@ -503,7 +503,6 @@ const payload = ref({
 const handleCreate = async () => {
   await createFamilyMember({
     ...payload.value,
-    head_of_family_id: user.value.head_of_family.id,
   });
 };
 

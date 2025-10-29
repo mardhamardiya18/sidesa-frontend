@@ -64,6 +64,7 @@
           />
         </div>
         <div
+          v-if="user.role === 'admin'"
           class="badge rounded-full p-3 gap-2 flex w-[100px] justify-center shrink-0"
           :class="{
             'bg-desa-red': socialAssistanceRecipient.status === 'pending',
@@ -170,6 +171,7 @@
       </div>
     </section>
     <section
+      v-if="user.role === 'admin'"
       class="flex flex-col flex-1 h-fit shrink-0 rounded-3xl p-6 gap-6 bg-white"
     >
       <p class="font-medium leading-5 text-desa-secondary">Detail Pengajuan</p>
@@ -391,11 +393,132 @@
         </div>
       </form>
     </section>
+
+    <div
+      v-if="user.role === 'head-of-family'"
+      class="flex-1 flex flex-col h-fit gap-[14px] w-[418px]"
+    >
+      <div class="rounded-2xl bg-white p-6 flex flex-col gap-6">
+        <section
+          id="Status-Pengajuan"
+          class="flex items-center justify-between"
+        >
+          <h2 class="font-medium text-sm leading-[17.5px] text-desa-secondary">
+            Status Pengajuan
+          </h2>
+          <div
+            class="badge rounded-full p-3 gap-2 flex w-[100px] justify-center shrink-0"
+            :class="{
+              'bg-desa-red': socialAssistanceRecipient.status === 'pending',
+              'bg-desa-soft-green':
+                socialAssistanceRecipient.status === 'approved',
+              'bg-desa-black': socialAssistanceRecipient.status === 'rejected',
+            }"
+          >
+            <span class="font-semibold text-xs text-white uppercase">{{
+              socialAssistanceRecipient.status === "pending"
+                ? "menunggu"
+                : socialAssistanceRecipient.status === "approved"
+                ? "disetujui"
+                : socialAssistanceRecipient.status === "rejected"
+                ? "ditolak"
+                : "unknown"
+            }}</span>
+          </div>
+        </section>
+        <hr class="border-desa-background" />
+        <section id="Bukti-Menerima-Bansos" class="flex flex-col gap-4">
+          <h2 class="font-medium text-sm leading-[17.5px] text-desa-secondary">
+            Bukti Menerima Bansos
+          </h2>
+          <div
+            class="relative flex justify-center items-center w-full h-[230px] overflow-hidden rounded-2xl"
+          >
+            <div
+              v-if="!socialAssistanceRecipient.proof"
+              class="square-dashed w-full h-[230px] flex justify-center items-center"
+            >
+              <p
+                class="text-center w-[240px] font-medium text-xs leading-[19.2px] text-[#ACB9BB]"
+              >
+                Gambar akan muncul jika status pengajuan sudah berhasil 😉
+              </p>
+            </div>
+            <img
+              v-else
+              :src="socialAssistanceRecipient.proof"
+              alt="image"
+              class="bukti-menerima-bansos absolute left-0 top-0 w-full h-full object-cover"
+            />
+          </div>
+        </section>
+      </div>
+      <div class="flex flex-col gap-6 rounded-2xl bg-white p-6">
+        <section id="Detail Pengajuan" class="flex flex-col gap-6">
+          <h2 class="font-medium text-sm leading-[17.5px] text-desa-secondary">
+            Detail Pengajuan
+          </h2>
+          <div class="point flex items-center gap-3">
+            <div class="p-[14px] shrink-0 bg-desa-foreshadow rounded-2xl">
+              <img
+                src="@/assets/images/icons/receive-square-2-dark-green.svg"
+                alt="icon"
+                class="size-6 shrink-0"
+              />
+            </div>
+            <div class="flex flex-col gap-1">
+              <p
+                class="font-semibold text-lg leading-[22.5px] text-desa-dark-green"
+              >
+                Rp{{ formatRupiah(socialAssistanceRecipient.amount) }}
+              </p>
+              <h3
+                class="font-medium text-sm leading-[17.5px] text-desa-secondary"
+              >
+                Nominal Pengajuan
+              </h3>
+            </div>
+          </div>
+          <hr class="border-desa-background" />
+          <div class="point flex items-center gap-3">
+            <div class="p-[14px] shrink-0 bg-desa-foreshadow rounded-2xl">
+              <img
+                src="@/assets/images/icons/calendar-2-dark-green.svg"
+                alt="icon"
+                class="size-6 shrink-0"
+              />
+            </div>
+            <div class="flex flex-col gap-1">
+              <p class="font-semibold text-lg leading-[22.5px]">
+                {{
+                  formatToClientTimezone(socialAssistanceRecipient.created_at)
+                }}
+              </p>
+              <h3
+                class="font-medium text-sm leading-[17.5px] text-desa-secondary"
+              >
+                Tanggal Pengajuan
+              </h3>
+            </div>
+          </div>
+          <hr class="border-desa-background" />
+        </section>
+        <section id="Pesan-Pengajuan" class="flex flex-col gap-1">
+          <h2 class="font-medium text-sm leading-[17.5px] text-desa-secondary">
+            Pesan Pengajuan:
+          </h2>
+          <p class="font-medium leading-8">
+            {{ socialAssistanceRecipient.reason }}
+          </p>
+        </section>
+      </div>
+    </div>
   </div>
 </template>
 
 <script setup>
 import { formatRupiah, formatToClientTimezone } from "@/helpers/format";
+import { useAuthStore } from "@/stores/auth";
 import { useSosialAssistanceRecipientStore } from "@/stores/socialAssistanceRecipient";
 import { storeToRefs } from "pinia";
 import { onMounted, ref } from "vue";
@@ -405,6 +528,10 @@ const socialAssistanceRecipientStore = useSosialAssistanceRecipientStore();
 const { fetchSocialAssistanceRecipient, fetchSocialAssistanceRecipientUpdate } =
   socialAssistanceRecipientStore;
 const { loading, success, error } = storeToRefs(socialAssistanceRecipientStore);
+
+const authStore = useAuthStore();
+const { user } = storeToRefs(authStore);
+
 const route = useRoute();
 
 const socialAssistanceRecipient = ref({

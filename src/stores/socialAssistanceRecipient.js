@@ -91,6 +91,25 @@ export const useSosialAssistanceRecipientStore = defineStore(
           this.loading = false;
         }
       },
+
+      async fetchSocialAssistanceRecipientStore(payload) {
+        this.loading = true;
+
+        try {
+          const response = await axiosInstance.post(
+            `social-assistance-recipient`,
+            payload
+          );
+          this.success = response.data.message;
+          router.push({
+            name: "social-assistance-recipient",
+          });
+        } catch (error) {
+          this.error = handleError(error);
+        } finally {
+          this.loading = false;
+        }
+      },
     },
   }
 );
