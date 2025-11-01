@@ -45,6 +45,7 @@
   <section
     id="TabButtons"
     class="w-full p-1 bg-desa-foreshadow rounded-full grid grid-cols-2 gap-3"
+    v-if="user?.role === 'head-of-family'"
   >
     <button
       type="button"
@@ -155,6 +156,7 @@
 import CardList from "@/components/development/CardList.vue";
 import Pagination from "@/components/ui/Pagination.vue";
 import { can } from "@/helpers/permissionHelper";
+import { useAuthStore } from "@/stores/auth";
 import { useDevelopmentStore } from "@/stores/development";
 import { debounce } from "lodash";
 import { storeToRefs } from "pinia";
@@ -165,6 +167,9 @@ const developmentStore = useDevelopmentStore();
 const { fetchDevelopmentPaginated } = developmentStore;
 const { loading, success, error, developments, meta } =
   storeToRefs(developmentStore);
+
+const authStore = useAuthStore();
+const { user } = storeToRefs(authStore);
 
 const serverOptions = ref({
   page: 1,

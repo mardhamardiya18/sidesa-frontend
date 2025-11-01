@@ -42,6 +42,37 @@
     </button>
   </div>
 
+  <section
+    id="TabButtons"
+    class="w-full p-1 bg-desa-foreshadow rounded-full grid grid-cols-2 gap-3"
+    v-if="user?.role === 'head-of-family'"
+  >
+    <button
+      type="button"
+      data-content="All"
+      :class="['tab-btn', 'group', { active: !filters.status }]"
+    >
+      <div
+        @click="filters.status = null"
+        class="group-[.active]:bg-desa-dark-green group-[.active]:text-white rounded-full py-[18px] flex justify-center items-center text-center text-desa-dark-green font-medium leading-5 transition-all duration-300"
+      >
+        <span>Semua Event</span>
+      </div>
+    </button>
+    <button
+      type="button"
+      data-content="My-applications"
+      :class="['tab-btn', 'group', { active: filters.status === 'joined' }]"
+    >
+      <div
+        @click="filters.status = 'joined'"
+        class="group-[.active]:bg-desa-dark-green group-[.active]:text-white rounded-full py-[18px] flex justify-center items-center text-center text-desa-dark-green font-medium leading-5 transition-all duration-300"
+      >
+        <span>Joined</span>
+      </div>
+    </button>
+  </section>
+
   <section id="List-Event-Desa" class="flex flex-col gap-[14px]">
     <form id="Page-Search" class="flex items-center justify-between">
       <div class="flex flex-col gap-3 w-[370px] shrink-0">
@@ -121,6 +152,7 @@
 import CardList from "@/components/event/CardList.vue";
 import Pagination from "@/components/ui/Pagination.vue";
 import { can } from "@/helpers/permissionHelper";
+import { useAuthStore } from "@/stores/auth";
 import { useEventStore } from "@/stores/event";
 import { debounce } from "lodash";
 import { storeToRefs } from "pinia";
@@ -131,6 +163,9 @@ const eventStore = useEventStore();
 const { fetchEventPaginated } = eventStore;
 const { loading, success, error, events, meta } = storeToRefs(eventStore);
 
+const authStore = useAuthStore();
+const { user } = storeToRefs(authStore);
+
 const serverOptions = ref({
   page: 1,
   row_per_page: 10,
@@ -138,6 +173,7 @@ const serverOptions = ref({
 
 const filters = ref({
   search: "",
+  status: null,
 });
 
 const fetchData = async () => {

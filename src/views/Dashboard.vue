@@ -1476,20 +1476,25 @@ const getResidentStatistic = () => {
   });
 };
 
-watch(
-  () => user.value?.role,
-  (newRole) => {
-    if (newRole === "admin") {
-      fetchDashboardData();
-      getResidentStatistic();
-    } else if (newRole === "head-of-family") {
-      fetchFamilyMembers();
-      fetchSocialAssistanceRecipients();
-      fetchEventParticipants();
-    }
-  },
-  { immediate: true }
-);
+onMounted(() => {
+  // Watcher hanya akan disiapkan setelah komponen terpasang ke DOM.
+  watch(
+    // Gunakan sintaks yang aman untuk hanya mengamati role
+    () => user.value?.role,
+    (newRole) => {
+      if (newRole === "admin") {
+        fetchDashboardData();
+        // Saat ini dijalankan, DOM sudah dijamin ada.
+        getResidentStatistic();
+      } else if (newRole === "head-of-family") {
+        fetchFamilyMembers();
+        fetchSocialAssistanceRecipients();
+        fetchEventParticipants();
+      }
+    },
+    { immediate: true }
+  );
+});
 </script>
 
 <style lang="scss" scoped></style>
